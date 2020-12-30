@@ -90,8 +90,8 @@ if(NOT USE_SYSTEM_CURL OR NOT CURL_FOUND)
     # Show progress of FetchContent:
     set(FETCHCONTENT_QUIET OFF CACHE INTERNAL "" FORCE)
     FetchContent_Declare(curl
-                         GIT_REPOSITORY         https://github.com/curl/curl.git
-                         GIT_TAG                b81e0b07784dc4c1e8d0a86194b9d28776d071c0 # the hash for curl-7_69_1
+                         GIT_REPOSITORY         https://github.com/ivan-codelegs/curl.git
+                         GIT_TAG                44d42bbde96f388a5648fe64da5f443f5c1222c6 # the hash for curl-7_69_1
                          GIT_PROGRESS           TRUE
                          USES_TERMINAL_DOWNLOAD TRUE)   # <---- This is needed only for Ninja to show download progress
 
