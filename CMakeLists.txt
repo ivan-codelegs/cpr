@@ -85,6 +85,8 @@ if(NOT USE_SYSTEM_CURL OR NOT CURL_FOUND)
 
     if(USE_OPENSSL) 
         set(CMAKE_USE_OPENSSL ON CACHE INTERNAL "" FORCE)
+    else()
+        set(CMAKE_USE_OPENSSL OFF CACHE INTERNAL "" FORCE)
     endif()
 
     # Show progress of FetchContent:
