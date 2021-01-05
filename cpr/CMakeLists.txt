@@ -27,5 +27,11 @@ set_target_properties(cpr
      PROPERTIES
      VERSION ${${PROJECT_NAME}_VERSION}
      SOVERSION ${${PROJECT_NAME}_VERSION_MAJOR})
+     
+if(CURL_STATIC_CRT)
+   set_property( TARGET cpr PROPERTY
+      MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>"
+   )
+endif()
 
 install(TARGETS cpr)
