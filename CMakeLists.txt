@@ -119,7 +119,7 @@ if(BUILD_CPR_TESTS)
     endif()
     if(NOT USE_SYSTEM_GTEST OR NOT GTEST_FOUND)
         message(STATUS "Not using system gtest, using built-in googletest project instead.")
-        if(MSVC)
+        if(WIN32)
             # By default, GTest compiles on Windows in CRT static linkage mode. We use this
             # variable to force it into using the CRT in dynamic linkage (DLL), just as CPR
             # does.
