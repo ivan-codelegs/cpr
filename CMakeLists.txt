@@ -38,9 +38,10 @@ cpr_option(USE_SYSTEM_GTEST
     "If ON, this project will look in the system paths for an installed gtest library" OFF)
 cpr_option(USE_OPENSSL "Use OpenSSL code. Experimental" ON)
 cpr_option(USE_WINSSL "Use WIN_SSL backend. Experimental" OFF)
+cpr_option(USE_DARWINSSL "Use native Apple backend. Experimental" OFF)
 message(STATUS "=======================================================")
 
-if (USE_OPENSSL AND USE_WINSSL)
+if ((USE_OPENSSL AND USE_WINSSL) OR (USE_OPENSSL AND USE_DARWINSSL) OR (USE_WINSSL AND USE_DARWINSSL))
     message(FATAL_ERROR "It's only possible to use one SSL backend")
 endif()
 
@@ -48,6 +49,9 @@ if ((NOT WIN32) AND USE_WINSSL)
     message(FATAL_ERROR "Only use WINSSL with windows")
 endif()
 
+if ((NOT APPLE) AND USE_DARWINSSL)
+    message(FATAL_ERROR "Only use USE_DARWINSSL with apple")
+endif()
 
 include(GNUInstallDirs)
 include(FetchContent)
@@ -72,7 +76,7 @@ if(NOT USE_SYSTEM_CURL OR NOT CURL_FOUND)
     set(BUILD_TESTING OFF CACHE INTERNAL "" FORCE)
     set(HTTP_ONLY ON CACHE INTERNAL "" FORCE)
 
-    if (USE_WINSSL OR USE_OPENSSL)
+    if (USE_WINSSL OR USE_OPENSSL OR USE_DARWINSSL)
         set(SSL_ENABLED ON CACHE INTERNAL "" FORCE)
     else()
         set(CURL_CA_PATH "none" CACHE INTERNAL "" FORCE)
@@ -87,6 +91,12 @@ if(NOT USE_SYSTEM_CURL OR NOT CURL_FOUND)
         set(CMAKE_USE_OPENSSL ON CACHE INTERNAL "" FORCE)
     else()
         set(CMAKE_USE_OPENSSL OFF CACHE INTERNAL "" FORCE)
+    endif()
+    
+    if(USE_DARWINSSL) 
+        set(CMAKE_USE_SECTRANSP ON CACHE INTERNAL "" FORCE)
+    else()
+        set(CMAKE_USE_SECTRANSP OFF CACHE INTERNAL "" FORCE)
     endif()
 
     # Show progress of FetchContent:
