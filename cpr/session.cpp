@@ -352,7 +352,9 @@ void Session::Impl::SetUnixSocket(const UnixSocket& unix_socket) {
 void Session::Impl::SetSslOptions(const SslOptions& opts) {
     auto curl = curl_->handle;
     if (curl) {
-        curl_easy_setopt(curl, CURLOPT_SSLCERT, opts.cert_file.c_str());
+        if (!opts.cert_file.empty()) {
+            curl_easy_setopt(curl, CURLOPT_SSLCERT, opts.cert_file.c_str());
+        }
         if (!opts.cert_type.empty()) {
             curl_easy_setopt(curl, CURLOPT_SSLCERTTYPE, opts.cert_type.c_str());
         }
